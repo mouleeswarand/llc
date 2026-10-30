@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Theme tokens (RGB triplets). Light is the default. `.dark` / `.light` on <html> (from the theme cookie) force a theme; otherwise the OS preference applies.
+ * Palette: deep navy + sapphire blue, with a muted gold accent.
+ * The neutral "slate" scale inverts in dark mode, so slate-50 is always the page
+ * background and slate-900 always the strongest text.
+ */
+:root {
+  color-scheme: light;
+  --surface: 255 255 255;
+  --ink: 12 24 52;
+  --shadow: 15 23 42;
+
+  --slate-50: 246 247 250;
+  --slate-100: 238 241 246;
+  --slate-200: 224 229 238;
+  --slate-300: 200 208 222;
+  --slate-400: 146 158 180;
+  --slate-500: 98 111 136;
+  --slate-600: 72 84 108;
+  --slate-700: 50 61 84;
+  --slate-800: 30 40 62;
+  --slate-900: 14 22 41;
+
+  --brand-50: 240 244 255;
+  --brand-100: 221 230 253;
+  --brand-200: 190 206 250;
+  --brand-300: 147 172 245;
+  --brand-400: 96 132 238;
+  --brand-500: 52 94 226;
+  --brand-600: 33 74 204;
+  --brand-700: 27 58 165;
+  --brand-800: 21 42 115;
+  --brand-900: 10 25 58;
+
+  --accent-100: 250 240 218;
+  --accent-500: 196 146 54;
+  --accent-600: 160 116 36;
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: 17 24 41;
+  --ink: 238 242 250;
+  --shadow: 0 0 0;
+
+  --slate-50: 9 13 25;
+  --slate-100: 22 30 48;
+  --slate-200: 36 46 70;
+  --slate-300: 56 68 96;
+  --slate-400: 96 110 140;
+  --slate-500: 140 153 180;
+  --slate-600: 168 179 202;
+  --slate-700: 198 207 224;
+  --slate-800: 224 230 241;
+  --slate-900: 241 244 250;
+
+  --brand-50: 21 31 64;
+  --brand-100: 31 46 94;
+  --brand-200: 44 65 130;
+  --brand-300: 70 98 180;
+  --brand-400: 104 136 232;
+  --brand-500: 116 148 250;
+  --brand-600: 76 112 240;
+  --brand-700: 160 184 255;
+  --brand-800: 196 211 255;
+  --brand-900: 5 10 24;
+
+  --accent-100: 58 44 18;
+  --accent-500: 222 178 92;
+  --accent-600: 234 196 120;
+}
+
+/* "System" theme: follow the OS unless the user explicitly chose light. Keep in sync with .dark above. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --surface: 17 24 41;
+    --ink: 238 242 250;
+    --shadow: 0 0 0;
+
+    --slate-50: 9 13 25;
+    --slate-100: 22 30 48;
+    --slate-200: 36 46 70;
+    --slate-300: 56 68 96;
+    --slate-400: 96 110 140;
+    --slate-500: 140 153 180;
+    --slate-600: 168 179 202;
+    --slate-700: 198 207 224;
+    --slate-800: 224 230 241;
+    --slate-900: 241 244 250;
+
+    --brand-50: 21 31 64;
+    --brand-100: 31 46 94;
+    --brand-200: 44 65 130;
+    --brand-300: 70 98 180;
+    --brand-400: 104 136 232;
+    --brand-500: 116 148 250;
+    --brand-600: 76 112 240;
+    --brand-700: 160 184 255;
+    --brand-800: 196 211 255;
+    --brand-900: 5 10 24;
+
+    --accent-100: 58 44 18;
+    --accent-500: 222 178 92;
+    --accent-600: 234 196 120;
+}
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 font-sans text-slate-800;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01";
+}
+
+h1, h2 {
+  @apply font-display text-ink;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+h3 { @apply text-ink; }
+
+::selection { @apply bg-brand-100 text-ink; }
+
+:focus-visible { @apply outline-2 outline-offset-2 outline-brand-500; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::after, ::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* Marketing pages use a slightly larger body size; the dashboard stays compact. */
+.marketing {
+  @apply bg-surface;
+  font-size: 1.0625rem;
+}
+
+/* Homepage hero: stacked on mobile, text + image columns from 992px. */
+.hero-grid {
+  display: grid;
+  max-width: none;
+  margin: 0 auto;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas: "Title" "Image" "Button" "Badge";
+}
+@media (min-width: 576px) {
+  .hero-grid { gap: 24px; }
+}
+@media (min-width: 992px) {
+  .hero-grid {
+    column-gap: 48px;
+    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-areas: "Badge Image" "Title Image" "Button Image";
+  }
+}
+.hero-badge { grid-area: Badge; }
+.hero-title { grid-area: Title; }
+.hero-image { grid-area: Image; }
+.hero-button { grid-area: Button; }
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[15px] font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-500 active:translate-y-px;
+  }
+  .btn-outline {
+    @apply btn border border-slate-300 bg-surface text-slate-800 hover:border-brand-500 hover:text-brand-600;
+  }
+  .btn-link {
+    @apply text-[15px] font-semibold text-brand-600 underline-offset-4 hover:underline;
+  }
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-surface p-5 shadow-card sm:p-6;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+  .input {
+    @apply w-full rounded-lg border border-slate-300 bg-surface px-3.5 py-2.5 text-[15px] text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-slate-500;
+  }
+  .table {
+    @apply w-full min-w-[640px] text-left text-[15px];
+  }
+  .table th {
+    @apply border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500;
+  }
+  .table td {
+    @apply border-b border-slate-100 px-4 py-3.5 align-middle;
+  }
+  .table tbody tr {
+    @apply transition-colors hover:bg-slate-50;
+  }
+}

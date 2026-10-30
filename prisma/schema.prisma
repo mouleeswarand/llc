@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Neon (written by `neon env pull`): DATABASE_URL is the pooled connection used at runtime,
+// DATABASE_URL_UNPOOLED the direct one that Prisma Migrate needs.
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum EntityType {
+  LLC
+  CORPORATION
+}
+
+enum CompanyStatus {
+  PROCESSING
+  FILED
+  GOOD_STANDING
+  DELINQUENT
+  DISSOLVED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELED
+}
+
+enum MailStatus {
+  RECEIVED
+  SCANNED
+  FORWARD_REQUESTED
+  FORWARDED
+  DISCARDED
+}
+
+enum ReportStatus {
+  UPCOMING
+  SUBMITTED
+  FILED
+  LATE
+}
+
+// App profile for a Neon Auth user. `id` is the Neon Auth user id; credentials and
+// sessions live in Neon Auth (neon_auth schema), not here.
+model User {
+  id             String          @id
+  email          String          @unique
+  name           String
+  phone          String?
+  createdAt      DateTime        @default(now())
+  companies      Company[]
+  paymentMethods PaymentMethod[]
+}
+
+model Company {
+  id               String         @id @default(cuid())
+  name             String
+  entityType       EntityType     @default(LLC)
+  state            String         @default("WY")
+  status           CompanyStatus  @default(PROCESSING)
+  filingId         String?
+  ein              String?
+  purpose          String?
+  formationDate    DateTime?
+  renewalDate      DateTime?
+  principalAddress String?
+  mailingAddress   String?
+  packageCode      String
+  ownerId          String
+  owner            User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+  members          Member[]
+  documents        Document[]
+  mailItems        MailItem[]
+  orders           Order[]
+  subscription     Subscription?
+  annualReports    AnnualReport[]
+
+  @@index([ownerId])
+}
+
+// Officers, managers, members, shareholders.
+model Member {
+  id                 String   @id @default(cuid())
+  companyId          String
+  company            Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name               String
+  email              String?
+  address            String?
+  roles              String[]
+  ownershipPct       Float    @default(0)
+  isResponsibleParty Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  @@index([companyId])
+}
+
+model Document {
+  id                String    @id @default(cuid())
+  companyId         String
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  fileType          String    @default("PDF")
+  // Object key in the Neon "documents" bucket; downloads are served via presigned URLs.
+  storageKey        String?
+  url               String?
+  signatureRequired Boolean   @default(false)
+  signedAt          DateTime?
+  createdAt         DateTime  @default(now())
+
+  @@index([companyId])
+}
+
+model MailItem {
+  id         String     @id @default(cuid())
+  companyId  String
+  company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  reference  String     @unique
+  sender     String?
+  itemType   String
+  receivedAt DateTime   @default(now())
+  status     MailStatus @default(RECEIVED)
+  scanUrl    String?
+  tracking   String?
+
+  @@index([companyId])
+}
+
+// Catalog of add-on services (address change, apostille, EIN, ...).
+model Service {
+  id          String      @id @default(cuid())
+  code        String      @unique
+  name        String
+  category    String?
+  description String?
+  priceCents  Int
+  active      Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  orderNumber     String         @unique
+  companyId       String
+  company         Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  description     String
+  amountCents     Int
+  status          OrderStatus    @default(PENDING)
+  paymentMethodId String?
+  paymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id], onDelete: SetNull)
+  createdAt       DateTime       @default(now())
+  items           OrderItem[]
+
+  @@index([companyId])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  serviceId  String?
+  service    Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  label      String
+  priceCents Int
+}
+
+// Card metadata only. Card numbers must never be stored here — collect them with a
+// payment processor (e.g. Stripe) and store its payment-method id in externalId.
+model PaymentMethod {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand      String
+  last4      String
+  expMonth   Int
+  expYear    Int
+  isDefault  Boolean  @default(false)
+  externalId String?
+  createdAt  DateTime @default(now())
+  orders     Order[]
+
+  @@index([userId])
+}
+
+model Subscription {
+  id              String   @id @default(cuid())
+  companyId       String   @unique
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  planName        String
+  monthlyCents    Int
+  status          String   @default("active")
+  nextPaymentDate DateTime
+}
+
+model AnnualReport {
+  id        String       @id @default(cuid())
+  companyId String
+  company   Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  year      Int
+  dueDate   DateTime
+  feeCents  Int
+  status    ReportStatus @default(UPCOMING)
+  filedAt   DateTime?
+
+  @@unique([companyId, year])
+}
