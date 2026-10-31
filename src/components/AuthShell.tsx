@@ -14,13 +14,13 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
     <div className="grid min-h-screen lg:grid-cols-[1fr_1.1fr]">
       <aside className="relative hidden overflow-hidden bg-brand-900 p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(36rem_24rem_at_10%_0%,rgb(52_94_226/0.35),transparent),radial-gradient(30rem_20rem_at_100%_100%,rgb(196_146_54/0.18),transparent)]" />
-        <div className="relative inline-block self-start rounded-lg bg-white p-3 [&_span]:!text-[#0a193a]"><Logo /></div>
+        <div className="relative self-start"><Logo tone="light" /></div>
         <div className="relative">
           <p className="font-display text-4xl font-semibold leading-tight">{BRAND.slogan}</p>
           <ul className="mt-8 space-y-4 text-white/80">
             {POINTS.map((p) => (
               <li key={p} className="flex gap-3">
-                <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] text-[#e0b25c]">✓</span>
+                <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 text-[0.6875rem] text-[#e0b25c]">✓</span>
                 {p}
               </li>
             ))}

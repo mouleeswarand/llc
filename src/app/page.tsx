@@ -60,8 +60,8 @@ export default async function Home() {
   return (
     <div className="marketing min-h-screen">
       <div className="bg-brand-900 text-white">
-        <div className="mx-auto flex w-full flex-wrap items-center justify-between gap-2 px-4 py-2 text-sm sm:px-6 lg:px-10 xl:px-16">
-          <ul className="flex flex-wrap gap-x-6 gap-y-1">
+        <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2 px-4 py-2 text-xs sm:text-sm md:justify-between sm:px-6 lg:px-10 xl:px-16">
+          <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:gap-x-6">
             {PROMOS.map((p) => (
               <li key={p} className="flex items-center gap-2"><Check className="h-4 w-4 text-accent-500" />{p}</li>
             ))}
@@ -71,25 +71,29 @@ export default async function Home() {
       </div>
 
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-surface/85 backdrop-blur-md">
-        <div className="mx-auto flex w-full items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10 xl:px-16">
+        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-10 xl:px-16">
           <Logo />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggle />
             {BRAND.supportPhone && (
-              <a href={`tel:${BRAND.supportPhone}`} className="hidden text-base font-semibold text-brand-700 sm:inline">Call {BRAND.supportPhone}</a>
+              <a href={`tel:${BRAND.supportPhone}`} className="hidden text-base font-semibold text-brand-700 lg:inline">Call {BRAND.supportPhone}</a>
             )}
+            {/* Mobile: the account link sits in the top row so the menu row below stays a single line. */}
+            <Link href={session ? "/dashboard" : "/login"} className="btn-outline px-3 py-1.5 text-sm sm:hidden">
+              {session ? "Dashboard" : "Log in"}
+            </Link>
             <Link href="/start" className="btn-primary hidden sm:inline-flex">Start Your Business</Link>
           </div>
         </div>
-        <nav className="mx-auto flex w-full flex-wrap items-center gap-x-7 gap-y-2 px-4 pb-3 text-[15px] font-medium text-slate-600 sm:px-6 lg:px-10 xl:px-16">
+        <nav className="mx-auto flex w-full items-center gap-x-5 overflow-x-auto whitespace-nowrap px-4 pb-3 text-[0.9375rem] font-medium text-slate-600 sm:gap-x-7 sm:px-6 lg:px-10 xl:px-16">
           <a href="#services" className="hover:text-brand-600">Services</a>
           <a href="#pricing" className="hover:text-brand-600">Pricing</a>
           <a href="#how" className="hover:text-brand-600">How it works</a>
           <a href="#faq" className="hover:text-brand-600">FAQ</a>
           {session ? (
-            <Link href="/dashboard" className="ml-auto text-brand-600 hover:underline">Dashboard</Link>
+            <Link href="/dashboard" className="ml-auto hidden text-brand-600 hover:underline sm:inline">Dashboard</Link>
           ) : (
-            <span className="ml-auto flex gap-5">
+            <span className="ml-auto hidden gap-5 sm:flex">
               <Link href="/login" className="text-brand-600 hover:underline">Login</Link>
               <Link href="/signup" className="text-brand-600 hover:underline">Sign up</Link>
             </span>
@@ -97,7 +101,7 @@ export default async function Home() {
         </nav>
       </header>
 
-      <section className="relative overflow-hidden px-4 py-14 sm:px-6 lg:px-10 xl:px-16 lg:py-24">
+      <section className="relative overflow-hidden px-4 py-10 sm:py-14 sm:px-6 lg:px-10 xl:px-16 lg:py-24">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(60rem_30rem_at_80%_-10%,rgb(var(--brand-500)/0.14),transparent),radial-gradient(40rem_24rem_at_0%_110%,rgb(var(--accent-500)/0.10),transparent)]" />
         <div className="hero-grid relative items-center">
           <div className="hero-badge flex flex-wrap items-center gap-2">
@@ -108,7 +112,7 @@ export default async function Home() {
           </div>
           <div className="hero-title">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent-600">{BRAND.slogan}</p>
-            <h1 className="mt-3 text-[2.75rem] leading-[1.08] sm:text-6xl">Start your LLC <span className="text-brand-600">today</span></h1>
+            <h1 className="mt-3 text-[2.375rem] leading-[1.08] sm:text-6xl">Start your LLC <span className="text-brand-600">today</span></h1>
             <ul className="mt-6 space-y-3">
               {HERO_POINTS.map((p) => (
                 <li key={p} className="flex gap-3"><Check className="mt-1 h-5 w-5 shrink-0 text-brand-600" />{p}</li>
@@ -250,7 +254,7 @@ export default async function Home() {
       <footer className="border-t border-white/10 bg-brand-900 px-4 py-12 text-white/70 sm:px-6 lg:px-10 xl:px-16">
         <div className="mx-auto grid w-full gap-8 md:grid-cols-4">
           <div>
-            <div className="inline-block rounded-lg bg-white p-3 [&_span]:!text-[#0a193a]"><Logo /></div>
+            <Logo tone="light" />
             <p className="mt-4 text-base">{BRAND.tagline}</p>
             <p className="mt-2 text-base"><a href={`mailto:${BRAND.supportEmail}`} className="hover:text-white">{BRAND.supportEmail}</a></p>
           </div>

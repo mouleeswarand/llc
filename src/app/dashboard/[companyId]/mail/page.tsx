@@ -22,7 +22,7 @@ export default async function MailPage({ params }: { params: Promise<{ companyId
   return (
     <>
       <h1 className="text-2xl sm:text-3xl">Mail</h1>
-      <p className="text-[15px] text-slate-600">To make sure you receive everything, ask senders to address mail to your company name rather than your personal name.</p>
+      <p className="text-[0.9375rem] text-slate-600">To make sure you receive everything, ask senders to address mail to your company name rather than your personal name.</p>
       <LiveMail
         key={sealedQuery.queryFingerprint}
         companyId={company.id}

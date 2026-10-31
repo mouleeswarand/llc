@@ -3,7 +3,14 @@ import { defineConfig } from "@neon/config/v1";
 export default defineConfig({
   // Live queries (Mail inbox). List every origin the browser app runs on.
   preview: {
-    realtime: { allowedOrigins: ["http://localhost:3000"] },
+    realtime: {
+      allowedOrigins: [
+        "http://localhost:3000",
+        "https://llc-ashy.vercel.app",
+        "https://taglion.com",
+        "https://www.taglion.com",
+      ],
+    },
   },
   // Managed Better Auth: customer sign-up / sign-in.
   auth: true,

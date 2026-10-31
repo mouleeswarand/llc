@@ -117,6 +117,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
+ * Large monitors: every size is in rem, so growing the root font scales text, spacing and
+ * controls together. 16px up to 1600px wide, then +0.4px per 100px, capped at 26px (~4K).
+ */
+@media (min-width: 1600px) {
+  html { font-size: clamp(1rem, calc(1rem + (100vw - 1600px) * 0.004), 1.625rem); }
+}
+
 body {
   @apply bg-slate-50 font-sans text-slate-800;
   line-height: 1.55;
@@ -156,7 +164,6 @@ h3 { @apply text-ink; }
   margin: 0 auto;
   gap: 12px;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto;
   grid-template-areas: "Title" "Image" "Button" "Badge";
 }
 @media (min-width: 576px) {
@@ -176,7 +183,7 @@ h3 { @apply text-ink; }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[15px] font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[0.9375rem] font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
     @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-500 active:translate-y-px;
@@ -185,7 +192,7 @@ h3 { @apply text-ink; }
     @apply btn border border-slate-300 bg-surface text-slate-800 hover:border-brand-500 hover:text-brand-600;
   }
   .btn-link {
-    @apply text-[15px] font-semibold text-brand-600 underline-offset-4 hover:underline;
+    @apply text-[0.9375rem] font-semibold text-brand-600 underline-offset-4 hover:underline;
   }
   .card {
     @apply rounded-2xl border border-slate-200 bg-surface p-5 shadow-card sm:p-6;
@@ -194,13 +201,13 @@ h3 { @apply text-ink; }
     @apply mb-1.5 block text-sm font-medium text-slate-700;
   }
   .input {
-    @apply w-full rounded-lg border border-slate-300 bg-surface px-3.5 py-2.5 text-[15px] text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15;
+    @apply w-full rounded-lg border border-slate-300 bg-surface px-3.5 py-2.5 text-[0.9375rem] text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15;
   }
   .eyebrow {
     @apply text-xs font-semibold uppercase tracking-[0.12em] text-slate-500;
   }
   .table {
-    @apply w-full min-w-[640px] text-left text-[15px];
+    @apply w-full min-w-[640px] text-left text-[0.9375rem];
   }
   .table th {
     @apply border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500;

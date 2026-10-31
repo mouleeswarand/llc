@@ -18,7 +18,7 @@ export default async function BillingPage({ params }: { params: Promise<{ compan
     <>
       <div>
         <h1 className="text-2xl sm:text-3xl">Billing</h1>
-        <p className="mt-2 text-[15px] text-slate-600">Your upcoming subscription and registration fees for {company.name}.</p>
+        <p className="mt-2 text-[0.9375rem] text-slate-600">Your upcoming subscription and registration fees for {company.name}.</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

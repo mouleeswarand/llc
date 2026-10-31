@@ -38,7 +38,36 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
     }
   }
 
+  // Google sign-in also creates the account on first use, so it serves both modes.
+  async function continueWithGoogle() {
+    setError(null);
+    setPending(true);
+    try {
+      const { error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${window.location.origin}${safeNext(next)}`,
+      });
+      if (error) {
+        setError(error.message || "Couldn't start Google sign-in. Please try again.");
+        setPending(false);
+      }
+      // On success the browser is redirected to Google.
+    } catch {
+      setError("Couldn't reach the sign-in service. Check your connection and try again.");
+      setPending(false);
+    }
+  }
+
   return (
+    <>
+    <div className="mt-6">
+      <button type="button" onClick={continueWithGoogle} disabled={pending} className="btn-outline w-full">
+        <GoogleLogo /> Continue with Google
+      </button>
+      <div className="mt-6 flex items-center gap-3 text-xs font-medium uppercase tracking-wider text-slate-400">
+        <span className="h-px flex-1 bg-slate-200" /> or with email <span className="h-px flex-1 bg-slate-200" />
+      </div>
+    </div>
     <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate={false}>
       {signUp && (
         <div>
@@ -73,6 +102,18 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
         )}
       </p>
     </form>
+    </>
+  );
+}
+
+function GoogleLogo() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden>
+      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8Z" />
+      <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24Z" />
+      <path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8l4-3.1Z" />
+      <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9Z" />
+    </svg>
   );
 }
 

@@ -50,7 +50,7 @@ function Alert({ tone, text, href, cta }: { tone: "info" | "danger"; text: strin
       ? "border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-500/25 dark:bg-sky-500/10 dark:text-sky-200"
       : "border-red-200 bg-red-50 text-red-800 dark:border-red-500/25 dark:bg-red-500/10 dark:text-red-200";
   return (
-    <div className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-[15px] ${styles}`}>
+    <div className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-[0.9375rem] ${styles}`}>
       <Icon name={tone === "info" ? "info" : "alert"} className="h-5 w-5 shrink-0" />
       <span className="flex-1">{text}</span>
       <Link href={href} className="shrink-0 font-semibold underline-offset-4 hover:underline">{cta} →</Link>

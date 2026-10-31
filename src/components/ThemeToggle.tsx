@@ -35,7 +35,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       aria-label={`${LABELS[current]}. Click to change theme`}
       className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-surface text-slate-600 transition hover:border-slate-300 hover:text-slate-900 ${className}`}
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]" aria-hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-[1.125rem] w-[1.125rem]" aria-hidden>
         {current === "light" && (
           <>
             <circle cx="12" cy="12" r="4" />

@@ -13,7 +13,7 @@ export default async function AnnualReportPage({ params }: { params: Promise<{ c
     <>
       <div>
         <h1 className="text-2xl sm:text-3xl">Annual Report</h1>
-        <p className="mt-2 text-[15px] text-slate-600">Keep {company.name} in good standing by filing its annual report before the due date.</p>
+        <p className="mt-2 text-[0.9375rem] text-slate-600">Keep {company.name} in good standing by filing its annual report before the due date.</p>
       </div>
       <div className="card overflow-x-auto">
         <table className="table">

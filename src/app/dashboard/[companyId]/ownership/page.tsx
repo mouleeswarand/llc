@@ -14,7 +14,7 @@ export default async function OwnershipPage({ params }: { params: Promise<{ comp
     <>
       <div>
         <h1 className="text-2xl sm:text-3xl">{company.entityType === "LLC" ? "LLC" : "Corporation"} Ownership Team</h1>
-        <p className="mt-2 text-[15px] text-slate-600">Contact information is kept private and used only for our records and to prepare your documents.</p>
+        <p className="mt-2 text-[0.9375rem] text-slate-600">Contact information is kept private and used only for our records and to prepare your documents.</p>
       </div>
 
       <div className="card overflow-x-auto">

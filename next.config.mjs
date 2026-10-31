@@ -6,6 +6,15 @@ const nextConfig = {
     // Requests pass through src/proxy.ts (auth), which has its own 10 MB default.
     proxyClientMaxBodySize: "11mb",
   },
+  // Browsers remember to use HTTPS only (Vercel already redirects http -> https).
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

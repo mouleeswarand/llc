@@ -57,7 +57,7 @@ export function AppShell({ user, companies, children }: { user: { name: string; 
           <Icon name="menu" className="h-6 w-6" />
         </button>
         <span className="lg:hidden"><Logo /></span>
-        <nav className="hidden min-w-0 items-center gap-2 text-[15px] text-slate-500 lg:flex" aria-label="Breadcrumb">
+        <nav className="hidden min-w-0 items-center gap-2 text-[0.9375rem] text-slate-500 lg:flex" aria-label="Breadcrumb">
           <Link href="/dashboard" className="hover:text-slate-900">My companies</Link>
           {current && (
             <>
@@ -90,7 +90,7 @@ function Sidebar({ companies, current, pathname, user }: { companies: Company[];
         {current && (
           <div className="mt-6">
             <p className="eyebrow px-3">Company</p>
-            <p className="mt-1 truncate px-3 text-[15px] font-semibold text-ink">{current.name}</p>
+            <p className="mt-1 truncate px-3 text-[0.9375rem] font-semibold text-ink">{current.name}</p>
             <div className="mt-3 space-y-1">
               {SECTIONS.map((s) => {
                 const href = `/dashboard/${current.id}${s.href}`;
@@ -105,12 +105,12 @@ function Sidebar({ companies, current, pathname, user }: { companies: Company[];
             <p className="eyebrow px-3">{current ? "Switch company" : "Your companies"}</p>
             <div className="mt-2 space-y-1">
               {companies.filter((c) => c.id !== current?.id).map((c) => (
-                <Link key={c.id} href={`/dashboard/${c.id}`} className="flex items-center gap-3 rounded-lg px-3 py-2 text-[15px] text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <Link key={c.id} href={`/dashboard/${c.id}`} className="flex items-center gap-3 rounded-lg px-3 py-2 text-[0.9375rem] text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-100 text-xs font-semibold text-slate-600">{initials(c.name)}</span>
                   <span className="truncate">{c.name}</span>
                 </Link>
               ))}
-              <Link href="/start" className="flex items-center gap-3 rounded-lg px-3 py-2 text-[15px] font-medium text-brand-600 hover:bg-brand-50">
+              <Link href="/start" className="flex items-center gap-3 rounded-lg px-3 py-2 text-[0.9375rem] font-medium text-brand-600 hover:bg-brand-50">
                 <span className="flex h-7 w-7 items-center justify-center rounded-md border border-dashed border-brand-300"><Icon name="plus" className="h-4 w-4" /></span>
                 Form a new company
               </Link>
@@ -148,7 +148,7 @@ function SideLink({ href, icon, label, active }: { href: string; icon: IconName;
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition ${
+      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[0.9375rem] font-medium transition ${
         active ? "bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
       }`}
     >

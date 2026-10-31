@@ -31,7 +31,7 @@ export default async function OverviewPage({ params }: { params: Promise<{ compa
       <section className="grid gap-6 xl:grid-cols-3">
         <div className="card">
           <h2 className="text-xl">Company contact</h2>
-          <dl className="mt-5 space-y-4 text-[15px]">
+          <dl className="mt-5 space-y-4 text-[0.9375rem]">
             <Field label="Contact name">{user.name}</Field>
             <Field label="Phone">{user.phone ?? "—"}</Field>
             <Field label="Email">{user.email}</Field>
@@ -100,7 +100,7 @@ function DocCard({ title, doc }: { title: string; doc?: { id: string; name: stri
     <div className="card flex flex-col p-5">
       <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600"><Icon name="file" /></span>
       <p className="eyebrow mt-4">{title}</p>
-      <p className="mt-1 flex-1 text-[15px] text-slate-700">{doc ? doc.name : "Not available yet."}</p>
+      <p className="mt-1 flex-1 text-[0.9375rem] text-slate-700">{doc ? doc.name : "Not available yet."}</p>
       {downloadable && (
         <a href={`/api/documents/${doc.id}`} className="btn-outline mt-4 self-start">
           <Icon name="download" className="h-4 w-4" /> Download
